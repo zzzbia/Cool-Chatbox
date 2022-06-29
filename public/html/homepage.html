@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cool Chatbox</title>
+
+    <!-- import font awesome icons from cdn if we want icons for the buttons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <nav class="bg-gradient-to-r from-cyan-500 py-5">
+        <h1 class="text-center text-2xl font-bold">Cool Chatbox</h1>
+        <div class="text-end px-5">
+            <a href="#Login" class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600">Login</a>
+            <a href="#Logout" class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600">Logout</a>
+        </div>
+    </nav>
+
+    <div id="wrapper" class="h-[80vh] mx-auto container flex flex-row mt-10">
+        <div id="usercard" class="h-full w-4/12 bg-cyan-50 drop-shadow-md">
+            <div class="drop-shadow-md text-center mt-10 bg-cyan-100 h-8/12 w-full p-10">
+                <h1>Username</h1>
+                <h2>Session Time</h2>
+                <button id="Previous-chats" class="px-5 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600">
+                    Previous Chats
+                </button>
+            </div>
+
+        </div>
+        <div id="chatbox" class="h-full w-8/12 bg-cyan-100 drop-shadow-md ">
+            <div id="messagesholder" class=" w-full bg-slate-50 overflow-auto max-h-full">
+                <div id="fillercontent" class="h-[200vh]">
+
+                </div>
+
+            </div>
+
+            <div id="sendbox" class="absolute w-full h-20 bg-red-100 bottom-0 border-t-2 border-indigo-200">
+                <div class="flex flex-row justify-between items-center h-full">
+                    <input id="message" type="text" class="w-full h-full border-0 px-5 py-2"
+                        placeholder="Type a message to start chatting">
+                    <button id="send" class="px-5 h-full bg-cyan-500 text-white rounded-md hover:bg-cyan-600">
+                        send
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
