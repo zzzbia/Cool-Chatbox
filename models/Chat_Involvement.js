@@ -33,7 +33,7 @@ Chat_Involvement.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'chat involvement',
+    modelName: 'chat_involvement',
   }
 );
 
