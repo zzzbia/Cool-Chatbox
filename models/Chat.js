@@ -12,7 +12,7 @@ Chat.init(
       autoIncrement: true,
     },
     chat_content: {
-        type: DataTypes.TEXT,
+        type: DataTypes.JSON,
         allowNull: false,
     }
   },
