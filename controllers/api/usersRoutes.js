@@ -1,5 +1,15 @@
 const router = require('express').Router();
 const { Users, Chat } = require('../../models');
+// get all users
+router.get('/', async (req, res) => {
+  try {
+    const usersData = await Users.findAll();
+
+    res.status(200).json(usersData);
+  } catch (err) {
+    res.status(400).json(err)
+  }
+})
 
 // For getting a user's chat history
 router.get('/:id', async (req, res) => {
