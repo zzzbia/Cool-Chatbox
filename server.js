@@ -13,6 +13,7 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const app = express();
 const server = http.createServer(app);
 
+
 const io = require("socket.io")(server, {
 	cors: {
 		origin: "http://localhost:8100",
@@ -70,6 +71,8 @@ app.get("/chat", (req, res) => {
 app.get("/login", (req, res) => {
 	res.render("login", {});
 });
+
+app.use(routes);
 
 sequelize
 	.sync({ force: false })
