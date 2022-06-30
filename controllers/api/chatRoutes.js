@@ -56,6 +56,24 @@ router.post('/newChat', async (req, res) => {
   }
 });
 
+// updates previously created chat
+router.put('/:id', async (req,res) => {
+  try {
+    const previousData = await Chat.findByPk(req.params.id);
+
+    if (!previousData) {
+      res.status(404).json({message: `No chat with ID: ${req.params.id} found`});
+      return;
+    };
+
+    await Chat.update(req.body, {where:{id: req.params.id}});
+    const newData = await Chat.findByPk(req.params.id);
+
+    res.status(200).json(newData);
+  }catch (err) {
+    res.status(500).json(err);
+  };
+})
 
 
 module.exports = router;
