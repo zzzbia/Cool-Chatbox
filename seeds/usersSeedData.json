@@ -1,18 +1,22 @@
 [
-    {
-        "username": "Blaurn",
-        "password": "something123"
-    },
-    {
-        "username": "iTurquoise",
-        "password": "password123"
-    },
-    {
-        "username": "Dynexe",
-        "password": "words&stuff2"
-    },
-    {
-        "username": "Yukifancy",
-        "password": "mypass123"
-    }
+	{
+		"username": "Blaurn",
+		"email": "something123@hotmail.com",
+		"password": "something123"
+	},
+	{
+		"username": "iTurquoise",
+		"email": "turq@hotmail.com",
+		"password": "password123"
+	},
+	{
+		"username": "Dynexe",
+		"email": "dyn@hotmail.com",
+		"password": "words&stuff2"
+	},
+	{
+		"username": "Yukifancy",
+		"email": "fancyki@hotmail.com",
+		"password": "mypass123"
+	}
 ]
