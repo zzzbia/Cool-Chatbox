@@ -12,7 +12,7 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const hbs = exphbs.create({ helpers });
+const hbs = exphbs.create({});
 
 const sess = {
 	secret: "Super secret secret",
@@ -28,12 +28,27 @@ app.use(session(sess));
 
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
+app.set("views", path.resolve(__dirname, "./views"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(routes);
+// Routes
+//Route for homepage
+app.get("/", (req, res) => {
+	res.render("homepage", {});
+});
+
+//Route for Chat after logged in
+app.get("/chat", (req, res) => {
+	res.render("chat", {});
+});
+
+//Route for logging in
+app.get("/login", (req, res) => {
+	res.render("login", {});
+});
 
 sequelize.sync({ force: false }).then(() => {
 	app.listen(PORT, () => console.log("Now listening"));
