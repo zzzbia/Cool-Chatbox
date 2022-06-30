@@ -1,32 +1,35 @@
 {
-  "name": "cool-chatbox",
-  "version": "1.0.0",
-  "description": "## ✏️ Description  Cool-Chatbox is a simple chat application that will allow two users to chat between eachother. They will be able to save their chat history and view it later if they wish",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "seed": "node seeds/seed.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zzzbia/Cool-Chatbox.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zzzbia/Cool-Chatbox/issues"
-  },
-  "homepage": "https://github.com/zzzbia/Cool-Chatbox#readme",
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "connect-session-sequelize": "^7.1.4",
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "express-handlebars": "^6.0.6",
-    "express-session": "^1.17.3",
-    "mysql2": "^2.3.3",
-    "sequelize": "^6.21.2"
-  }
+	"name": "cool-chatbox",
+	"version": "1.0.0",
+	"description": "## ✏️ Description  Cool-Chatbox is a simple chat application that will allow two users to chat between eachother. They will be able to save their chat history and view it later if they wish",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node server.js",
+		"seed": "node seeds/seed.js",
+		"dev": "nodemon server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/zzzbia/Cool-Chatbox.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/zzzbia/Cool-Chatbox/issues"
+	},
+	"homepage": "https://github.com/zzzbia/Cool-Chatbox#readme",
+	"dependencies": {
+		"bcrypt": "^5.0.1",
+		"connect-session-sequelize": "^7.1.4",
+		"dotenv": "^16.0.1",
+		"express": "^4.18.1",
+		"express-handlebars": "^6.0.6",
+		"express-session": "^1.17.3",
+		"mysql2": "^2.3.3",
+		"nodemon": "^2.0.18",
+		"sequelize": "^6.21.2",
+		"socket.io": "^4.5.1"
+	}
 }
