@@ -4,12 +4,25 @@ const session = require("express-session");
 const exphbs = require("express-handlebars");
 const routes = require("./controllers");
 const helpers = require("./utils/helpers");
-
 const sequelize = require("./config/connection");
 
+//Initializing socket.io
+const http = require("http");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 const app = express();
+const server = http.createServer(app);
+
+const io = require("socket.io")(server, {
+	cors: {
+		origin: "http://localhost:8100",
+		methods: ["GET", "POST"],
+		transports: ["websocket", "polling"],
+		credentials: true,
+	},
+	allowEIO3: true,
+});
+
 const PORT = process.env.PORT || 3001;
 
 const hbs = exphbs.create({});
@@ -23,6 +36,14 @@ const sess = {
 		db: sequelize,
 	}),
 };
+
+io.on("connection", (socket) => {
+	console.log("a user connected");
+	socket.on("chat message", (message) => {
+		console.log(`server received message ${message}`);
+		io.emit("chat message", message);
+	});
+});
 
 app.use(session(sess));
 
@@ -50,6 +71,13 @@ app.get("/login", (req, res) => {
 	res.render("login", {});
 });
 
-sequelize.sync({ force: false }).then(() => {
-	app.listen(PORT, () => console.log("Now listening"));
-});
+sequelize
+	.sync({ force: false })
+	.then(() => {
+		server.listen(PORT, () => {
+			console.log(`App listening on port ${PORT}`);
+		});
+	})
+	.catch((err) => {
+		console.log(err);
+	});

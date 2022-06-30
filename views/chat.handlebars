@@ -3,7 +3,7 @@
 		<div
 			class="drop-shadow-md text-center mt-10 bg-cyan-100 h-8/12 w-full p-10"
 		>
-			<h1>Username</h1>
+			<h1 className="">Username</h1>
 			<h2>Session Time</h2>
 			<button
 				id="Previous-chats"
@@ -17,19 +17,16 @@
 	<div id="chatbox" class="h-full w-8/12 bg-cyan-100 drop-shadow-md">
 		<div
 			id="messagesholder"
-			class="w-full bg-slate-50 overflow-auto max-h-full"
+			class="overflow-auto max-h-full pb-[100px]"
 		>
-			<div id="fillercontent" class="h-[200vh]">
-
-			</div>
-
+		
 		</div>
 
-		<div
+		<form
 			id="sendbox"
 			class="absolute w-full h-20 bg-red-100 bottom-0 border-t-2 border-indigo-200"
 		>
-			<div class="flex flex-row justify-between items-center h-full">
+			<div class="flex flex-row justify-between items-center h-full w-full">
 				<input
 					id="message"
 					type="text"
@@ -37,6 +34,7 @@
 					placeholder="Type a message to start chatting"
 				/>
 				<button
+					type="submit"
 					id="send"
 					class="px-5 h-full bg-cyan-500 text-white rounded-md hover:bg-cyan-600"
 				>
@@ -44,7 +42,38 @@
 				</button>
 			</div>
 
-		</div>
+		</form>
 
 	</div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.5.0/socket.io.js" />
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+
+  var form = document.getElementById('sendbox');
+  var input = document.getElementById('message');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+	console.log(`Sending message: ${input.value}`);
+    if (input.value) {
+      socket.emit('chat message', input.value);
+      input.value = '';
+    }
+  });
+ socket.on("chat message", (message) => {
+	console.log(`Received message: ${message}`);
+	const messagesholder = document.getElementById('messagesholder');
+	const messageElement = document.createElement('div');
+	messageElement.classList.add('flex', 'flex-row', 'justify-between', 'items-center', 'p-2', 'bg-indigo-100', 'border-b-2', 'border-indigo-200');
+	
+	const messageText = document.createElement('div');
+	messageText.classList.add('w-full', 'h-full', 'text-left', 'text-sm', 'text-indigo-600');
+	messageText.innerText = message;
+	messageElement.appendChild(messageText);
+	messagesholder.appendChild(messageElement);
+	messagesholder.scrollTop = messagesholder.scrollHeight;
+
+  });
+</script>
