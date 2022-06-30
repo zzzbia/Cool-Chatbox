@@ -20,5 +20,37 @@
             </form>
         </div>
     </div>
+<script>
+    const form = document.getElementById('login-form');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username-login').value;
+        const password = document.getElementById('password-login').value;
+        const data = {
+            username,
+            password
+        };
+        fetch('/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.message);
+                    window.location.href = '/chat';
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    });
+</script>
 
-<script src="../public/js/login.js"></script>
+
+{{!-- <script src="../public/js/login.js"></script> --}}
