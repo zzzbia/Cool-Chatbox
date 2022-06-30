@@ -13,7 +13,6 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const app = express();
 const server = http.createServer(app);
 
-
 const io = require("socket.io")(server, {
 	cors: {
 		origin: "http://localhost:8100",
@@ -70,6 +69,10 @@ app.get("/chat", (req, res) => {
 //Route for logging in
 app.get("/login", (req, res) => {
 	res.render("login", {});
+});
+
+app.get("/signup", (req, res) => {
+	res.render("signup", {});
 });
 
 app.use(routes);
