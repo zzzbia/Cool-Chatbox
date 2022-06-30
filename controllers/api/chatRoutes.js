@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Chat, Users } = require('../../models');
+const { Chat, Users, Chat_involvement } = require('../../models');
 
 // route for retrieveing all chat logs
 router.get('/', async (req, res) => {
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// route for retriving specific chat logs
+// route for retriving specific chat logs based on id
 router.get('/:id', async (req,res) => {
     try {
         const chatData = await Chat.findByPk(req.params.id,{include: Users});
@@ -30,13 +30,31 @@ router.get('/:id', async (req,res) => {
     };
 });
 
-// router.post('/send', async (req, res) => {
-//   try {
+// Initialize a new chat object in the database to be updated with each new message
+router.post('/newChat', async (req, res) => {
+  // expect body like
+  // {
+  //   "userIdArr": [1,3] 
+  // }
+  try {
+    const newChat = await Chat.create({chat_content:{"username": " ","chat":" "}});
 
-//   } catch (err) {
-//     res.status(400).json(err);
-//   }
-// });
+    const userId = req.body.userIdArr;
+    const chatId = [newChat.id, newChat.id];
+
+    for (i=0; i < 2; i++){
+      const chat_involvement = await Chat_involvement.create({
+          user_id: userId[i],
+          chat_id: chatId[i],
+      });
+      };
+
+    res.status(200).json(newChat);
+
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
 
 
 
