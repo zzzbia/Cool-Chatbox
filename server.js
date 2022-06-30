@@ -56,22 +56,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// Routes
-//Route for homepage
-app.get("/", (req, res) => {
-	res.render("homepage", {});
-});
-
-//Route for Chat after logged in
-app.get("/chat", (req, res) => {
-	res.render("chat", {});
-});
-
-//Route for logging in
-app.get("/login", (req, res) => {
-	res.render("login", {});
-});
-
 app.use(routes);
 
 sequelize
