@@ -12,12 +12,21 @@ const socketController = (io) => {
 
 	io.on("connection", (socket) => {
 		console.log("a user connected");
+		const chatId = socket.handshake.query.chatId;
+
+		if (!chatId) {
+			socket.disconnect();
+			return;
+		}
+
+		socket.join(chatId);
+
 		socket.on("chat message", async (message) => {
 			try {
 				const senderId = socket.request.session.user_id;
 				const userData = await Users.findByPk(senderId);
 
-				io.emit("chat message", {
+				io.to(chatId).emit("chat message", {
 					message: message,
 					username: userData.username,
 				});
