@@ -1,29 +1,24 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
+// Routes
+//Route for homepage
+router.get("/", (req, res) => {
+	res.render("homepage", {});
+});
 
-router.get('/', async (req,res) => {
-    try{
-        res.render('homepage',{})
+//Route for Chat after logged in
 
-    } catch (err) {
-        res.status(400).json(err)
-    }
-})
+//Route for logging in
+router.get("/login", (req, res) => {
+	res.render("login", {});
+});
 
-router.get('/chat', async (req,res) => {
-    try{
-        res.render("chat", {});
-    } catch (err) {
-        res.status(400).json(err);
-    }
-})
+router.get("/signup", (req, res) => {
+	res.render("signup", {});
+});
 
-router.get('/login', async (req,res) => {
-    try{
-        res.render('login',{})
-    } catch (err) {
-        res.status(400).json(err)
-    }
-})
+router.get("/chatlist", (req, res) => {
+	res.render("chatlist", {});
+});
 
 module.exports = router;

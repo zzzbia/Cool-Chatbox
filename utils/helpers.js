@@ -1,7 +1,7 @@
-function hello() {
+function logged_in() {
 	return "hello";
 }
 
 module.eports = {
-	hello,
+	logged_in,
 };
