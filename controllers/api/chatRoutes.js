@@ -56,6 +56,41 @@ router.post('/newChat', async (req, res) => {
   }
 });
 
+// Might work better when rooms are implimented. In a new room have a variable initialized to a value that won't correspond to a chat
+// id and use that for the param id in the request. The request will create a new chat row and link the user passed into the body
+// to that row. Request returns an object containing the new chat id which can be used to updated the initialized variable. Using that
+// for a new post request for another user in the chat will skip creating a new chat row and add that user to the current chat.
+router.post('/newChat/:id', async (req, res) => {
+  // expect body like
+  // {
+  //   "userId": 1 
+  // }
+  try {
+
+    const chatExits = await Chat.findOne({ where: { id: req.params.id } })
+    const userId = req.body.userId;
+    let chatId = undefined;
+
+    if (!chatExits){
+      const newChat = await Chat.create({chat_content:{"username": " ","chat":" "}})
+      chatId = newChat.id;
+    }else{
+      chatId = req.params.id;
+    }
+
+    const chat_involvement = await Chat_involvement.create({
+      user_id: userId,
+      chat_id: chatId,
+  });
+
+
+    res.status(200).json(chat_involvement);
+
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 // updates previously created chat
 router.put('/:id', async (req,res) => {
   try {
