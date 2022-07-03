@@ -30,6 +30,7 @@ socket.on("users", (users) => {
 		user.addEventListener("click", () => {
 			fetch("/api/chat/newChat", {
 				method: "POST",
+				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -41,11 +42,19 @@ socket.on("users", (users) => {
 				.then((data) => {
 					console.log(data);
 					if (data.id) {
-						window.location = "/dashboard/chat/" + data.id;
+						toastr.success("Chat started!");
+
+						setTimeout(() => {
+							window.location = "/dashboard/chat/" + data.id;
+						}, 1000);
+						return;
+					}
+					if (data.message) {
+						toastr.error(`${data.message}`);
 					}
 				})
 				.catch((e) => {
-					console.log(e);
+					console.log("error", e);
 				});
 		});
 		user.innerHTML = `<span class="text-sm text-indigo-600">${users[i].userName}</span>`;
