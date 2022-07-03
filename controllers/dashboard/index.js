@@ -11,6 +11,8 @@ router.get("/", async (req, res) => {
 			include: Chat,
 		});
 
+		const userChats = userData.chats;
+
 		res.render("chatlist", {
 			helpers: {
 				userId() {
@@ -22,6 +24,7 @@ router.get("/", async (req, res) => {
 				userData() {
 					return JSON.stringify(userData);
 				},
+				userChats: userChats,
 			},
 		});
 	} catch (err) {
