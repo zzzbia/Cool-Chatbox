@@ -13,8 +13,11 @@
 	<nav class="bg-gradient-to-r from-cyan-500 py-5">
 		<h1 class="text-center text-2xl font-bold"><a href="/">Cool Chatbox</a></h1>
 		<div class="text-end px-5">
-			<a href="/login" class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600">Login</a>
+			{{#if logged_in}}
 			<a href="/logout" class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600">Logout</a>
+			{{else}}
+			<a href="/login" class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600">Login</a>
+			{{/if}}
 		</div>
 	</nav>
 	{{{body}}}

@@ -51,13 +51,11 @@ fetch("/api/users/myChats")
 				chatListItem.innerHTML = `
 					<img src="/images/chat.png" class="rounded-full mr-2 h-10 w-10" alt="avatar" />
 					<div class="flex-1">
-						<h3 class="text-xl font-semibold">${chat.chat_host_username} / ${
-					chat.chat_partner_username
-				}</h3>
-						<p class="text-sm">${chat.chat_content[chat.chat_content.length - 1].chat}</p>
+						<h3 class="text-xl font-semibold">${chat.chat_host_username} / ${chat.chat_partner_username}</h3>
+						<p class="text-sm"></p>
 					</div>
 					<div class="flex-1 text-right">
-						<p class="text-sm">fsd</p>
+						 <p class="text-sm">Chat</p>
 					</div>
 				`;
 				chatList.appendChild(chatListItem);

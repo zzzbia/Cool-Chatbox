@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
 		const userChats = userData.chats;
 
 		res.render("chatlist", {
+			logged_in: true,
 			helpers: {
 				userId() {
 					return req.session.user_id;
@@ -60,6 +61,7 @@ router.get("/chat/:id", async (req, res) => {
 		}
 
 		res.render("chat", {
+			logged_in: true,
 			helpers: {
 				userId() {
 					return req.session.user_id;

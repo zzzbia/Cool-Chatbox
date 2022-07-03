@@ -32,11 +32,21 @@ router.get("/:id", async (req, res) => {
 
 // Initialize a new chat object in the database to be updated with each new message
 router.post("/newChat", async (req, res) => {
-	// expect body like
-	// {
-	//   "userIdArr": [1,3]
-	// }
 	try {
+		if (!req.session.logged_in || !req.session.user_id) {
+			return res.status(401).json({ message: "You are not logged in" });
+		}
+
+		if (!req.body.chatPartnerId) {
+			res.status(400).json({ message: "No chat partner id provided" });
+			return;
+		}
+
+		if (req.body.chatPartnerId === req.session.user_id) {
+			res.status(400).json({ message: "You cannot chat with yourself" });
+			return;
+		}
+
 		const userIds = [req.session.user_id, req.body.chatPartnerId];
 
 		// find user names of chat partners

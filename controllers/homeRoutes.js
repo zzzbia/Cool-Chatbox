@@ -25,7 +25,7 @@ router.get("/signup", (req, res) => {
 
 router.get("/logout", (req, res) => {
 	req.session.destroy();
-	return res.redirect("/login");
+	res.redirect("/login");
 });
 
 module.exports = router;
