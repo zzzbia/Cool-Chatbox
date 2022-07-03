@@ -13,12 +13,14 @@ router.get("/", async (req, res) => {
 
 router.get("/myChats", async (req, res) => {
 	try {
+		console.log("user", req.session.user_id);
 		const userData = await Users.findByPk(req.session.user_id, {
 			include: Chat,
 		});
 		console.log("my chats", userData);
 		res.status(200).json(userData.chats);
 	} catch (err) {
+		console.log(err);
 		res.status(400).json(err);
 	}
 });

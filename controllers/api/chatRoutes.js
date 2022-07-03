@@ -37,22 +37,33 @@ router.post("/newChat", async (req, res) => {
 	//   "userIdArr": [1,3]
 	// }
 	try {
-		const newChat = await Chat.create({
-			chat_content: { username: " ", chat: " " },
+		const userIds = [req.session.user_id, req.body.chatPartnerId];
+
+		// find user names of chat partners
+		const users = await Users.findAll({
+			where: {
+				id: userIds,
+			},
 		});
 
-		const userId = [req.session.user_id, req.body.chatPartnerId];
-		const chatId = [newChat.id, newChat.id];
+		const userNames = users.map((user) => user.username);
 
+		const newChat = await Chat.create({
+			chat_content: { username: " ", chat: " " },
+			chat_host_username: userNames[0],
+			chat_partner_username: userNames[1],
+		});
+		const chatId = [newChat.id, newChat.id];
 		for (i = 0; i < 2; i++) {
 			const chat_involvement = await Chat_involvement.create({
-				user_id: userId[i],
+				user_id: userIds[i],
 				chat_id: chatId[i],
 			});
 		}
 
 		res.status(200).json(newChat);
 	} catch (err) {
+		console.log(err);
 		res.status(400).json(err);
 	}
 });
@@ -61,35 +72,34 @@ router.post("/newChat", async (req, res) => {
 // id and use that for the param id in the request. The request will create a new chat row and link the user passed into the body
 // to that row. Request returns an object containing the new chat id which can be used to updated the initialized variable. Using that
 // for a new post request for another user in the chat will skip creating a new chat row and add that user to the current chat.
-router.post('/newChat/:id', async (req, res) => {
-  // expect body like
-  // {
-  //   "userId": 1 
-  // }
-  try {
+router.post("/newChat/:id", async (req, res) => {
+	// expect body like
+	// {
+	//   "userId": 1
+	// }
+	try {
+		const chatExits = await Chat.findOne({ where: { id: req.params.id } });
+		const userId = req.body.userId;
+		let chatId = undefined;
 
-    const chatExits = await Chat.findOne({ where: { id: req.params.id } })
-    const userId = req.body.userId;
-    let chatId = undefined;
+		if (!chatExits) {
+			const newChat = await Chat.create({
+				chat_content: { username: " ", chat: " " },
+			});
+			chatId = newChat.id;
+		} else {
+			chatId = req.params.id;
+		}
 
-    if (!chatExits){
-      const newChat = await Chat.create({chat_content:{"username": " ","chat":" "}})
-      chatId = newChat.id;
-    }else{
-      chatId = req.params.id;
-    }
+		const chat_involvement = await Chat_involvement.create({
+			user_id: userId,
+			chat_id: chatId,
+		});
 
-    const chat_involvement = await Chat_involvement.create({
-      user_id: userId,
-      chat_id: chatId,
-  });
-
-
-    res.status(200).json(chat_involvement);
-
-  } catch (err) {
-    res.status(400).json(err);
-  }
+		res.status(200).json(chat_involvement);
+	} catch (err) {
+		res.status(400).json(err);
+	}
 });
 
 // updates previously created chat

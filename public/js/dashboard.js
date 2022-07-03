@@ -16,7 +16,7 @@ newChatForm.addEventListener("submit", function (e) {
 		.then((data) => {
 			console.log(data);
 			if (data.id) {
-				window.location = "dashboard/chat/" + data.id;
+				window.location = "/dashboard/chat/" + data.id;
 			}
 		})
 		.catch((e) => {
@@ -30,6 +30,7 @@ fetch("/api/users/myChats")
 	.then((res) => res.json())
 	.then((data) => {
 		if (data.length) {
+			console.log(data);
 			data.forEach((chat) => {
 				const chatList = document.getElementById("chat-list");
 				const chatListItem = document.createElement("li");
@@ -45,13 +46,15 @@ fetch("/api/users/myChats")
 				);
 				// make chat list item clickable and link to chat
 				chatListItem.addEventListener("click", function () {
-					window.location = "dashboard/chat/" + chat.id;
+					window.location = "/dashboard/chat/" + chat.id;
 				});
 				chatListItem.innerHTML = `
 					<img src="/images/chat.png" class="rounded-full mr-2 h-10 w-10" alt="avatar" />
 					<div class="flex-1">
-						<h3 class="text-xl font-semibold">fsda</h3>
-						<p class="text-sm">fds</p>
+						<h3 class="text-xl font-semibold">${chat.chat_host_username} / ${
+					chat.chat_partner_username
+				}</h3>
+						<p class="text-sm">${chat.chat_content[chat.chat_content.length - 1].chat}</p>
 					</div>
 					<div class="flex-1 text-right">
 						<p class="text-sm">fsd</p>
