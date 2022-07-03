@@ -5,6 +5,7 @@ const exphbs = require("express-handlebars");
 const routes = require("./controllers");
 const helpers = require("./utils/helpers");
 const sequelize = require("./config/connection");
+const socketController = require("./controllers/socket");
 
 //Initializing socket.io
 const http = require("http");
@@ -12,7 +13,6 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 const app = express();
 const server = http.createServer(app);
-
 
 const io = require("socket.io")(server, {
 	cors: {
@@ -28,7 +28,7 @@ const PORT = process.env.PORT || 3001;
 
 const hbs = exphbs.create({});
 
-const sess = {
+const sess = session({
 	secret: "Super secret secret",
 	cookie: {},
 	resave: false,
@@ -36,17 +36,14 @@ const sess = {
 	store: new SequelizeStore({
 		db: sequelize,
 	}),
-};
-
-io.on("connection", (socket) => {
-	console.log("a user connected");
-	socket.on("chat message", (message) => {
-		console.log(`server received message ${message}`);
-		io.emit("chat message", message);
-	});
 });
 
-app.use(session(sess));
+app.use(sess);
+
+const wrap = (middleware) => (socket, next) =>
+	middleware(socket.request, {}, next);
+
+io.use(wrap(sess));
 
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
@@ -57,6 +54,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(routes);
+socketController(io);
 
 sequelize
 	.sync({ force: false })

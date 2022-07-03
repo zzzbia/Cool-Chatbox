@@ -1,18 +1,18 @@
 [
-    {
-        "username": "Blaurn",
-        "password": "something123"
-    },
-    {
-        "username": "iTurquoise",
-        "password": "password123"
-    },
-    {
-        "username": "Dynexe",
-        "password": "words&stuff2"
-    },
-    {
-        "username": "Yukifancy",
-        "password": "mypass123"
-    }
+	{
+		"username": "Blaurn",
+		"password": "something123"
+	},
+	{
+		"username": "iTurquoise",
+		"password": "password123"
+	},
+	{
+		"username": "Dynexe",
+		"password": "words&stuff2"
+	},
+	{
+		"username": "Yukifancy",
+		"password": "mypass123"
+	}
 ]

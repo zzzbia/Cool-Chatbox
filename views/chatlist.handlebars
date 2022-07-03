@@ -1,0 +1,27 @@
+<div class="container mx-auto py-10">
+    <h1 class="text-4xl font-bold">
+        Welcome,
+        {{userName}}
+        <p>Your user id is: {{userId}} </p>
+    </h1>
+    <div class="flex flex-row">
+        <div id="create-new-chat" class="w-4/12 my-10">
+            <h2 class="font-bold text-2xl">Create new chat:</h2>
+            <form id="new-chat">
+                <input type="text" id="chat-user" placeholder="User id of user"
+                    class="w-full p-2 border my-10 rounded-lg" />
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Create new chat
+                </button>
+            </form>
+        </div>
+        <div id="chat-list" class="w-8/12">
+            {{userId}}
+            {{userData}}
+        </div>
+    </div>
+</div>
+
+<script src="js/dashboard.js">
+
+</script>
