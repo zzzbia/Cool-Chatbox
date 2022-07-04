@@ -11,19 +11,22 @@ router.get("/", async (req, res) => {
 			include: Chat,
 		});
 
-		res.render("chatlist", {
-			helpers: {
-				userId() {
-					return req.session.user_id;
-				},
-				userName() {
-					return userData.username;
-				},
-				userData() {
-					return JSON.stringify(userData);
-				},
-			},
-		});
+		const user = userData.get({ plain: true });
+
+		let chat = [];
+		let allChats = [];
+		
+		for(let h=0;h<user.chats.length;h++){
+		for(let i=0;i<user.chats[h].chat_content.length;i++){
+			chat.push({
+				username:user.chats[h].chat_content[i].username,
+				message:user.chats[h].chat_content[i].message
+			})}
+			allChats.push({chat_log:chat})
+			chat=[]
+		}
+
+		res.render("chatlist", {userId: req.session.user_id, userName: userData.username, userData: allChats});
 	} catch (err) {
 		res.status(400).json(err);
 	}
