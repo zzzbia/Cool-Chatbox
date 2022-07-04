@@ -162,6 +162,7 @@ fetch("/api/users/myChats")
 				deleteBtn.innerHTML = "Delete";
 
 				deleteBtn.addEventListener("click", function () {
+					chatListItem.remove();
 					fetch(`/api/chat/${chat.id}`, {
 						method: "DELETE",
 						headers: {
@@ -170,7 +171,8 @@ fetch("/api/users/myChats")
 					}).then((res) => {
 						if (res.ok) {
 							toastr.success("Chat deleted!");
-							chatListItem.remove();
+						} else {
+							toastr.error("Error deleting chat! Reload and try again");
 						}
 					});
 				});
