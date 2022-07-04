@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const { Op } = require("sequelize");
+
 const { Chat, Users, Chat_involvement } = require("../../models");
 
 // route for retrieveing all chat logs
@@ -7,6 +9,19 @@ router.get("/", async (req, res) => {
 		const chatsData = await Chat.findAll({ include: Users });
 
 		res.status(200).json(chatsData);
+	} catch (err) {
+		res.status(400).json(err);
+	}
+});
+
+// #TODO: route for deleting chat by id if user is in the chat
+router.delete("/:id", async (req, res) => {
+	try {
+		const chatData = await Chat.findByPk(req.params.id);
+
+		// if user is
+
+		res.status(200).json(chatData);
 	} catch (err) {
 		res.status(400).json(err);
 	}
@@ -44,6 +59,16 @@ router.post("/newChat", async (req, res) => {
 
 		if (req.body.chatPartnerId === req.session.user_id) {
 			res.status(400).json({ message: "You cannot chat with yourself" });
+			return;
+		}
+
+		const chatPartner = await Users.findByPk(req.body.chatPartnerId);
+
+		// check if user already has a chat with the chat partner
+
+		if (chatExists) {
+			console.log("chat exists", chatExists);
+			res.status(200).json(chatExists);
 			return;
 		}
 
@@ -94,7 +119,7 @@ router.post("/newChat/:id", async (req, res) => {
 
 		if (!chatExits) {
 			const newChat = await Chat.create({
-				chat_content: { username: " ", chat: " " },
+				chat_content: [],
 			});
 			chatId = newChat.id;
 		} else {
