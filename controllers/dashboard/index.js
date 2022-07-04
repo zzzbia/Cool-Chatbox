@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
 				username:user.chats[h].chat_content[i].username,
 				message:user.chats[h].chat_content[i].message
 			})}
-			allChats.push({chat_log:chat})
+			allChats.push({id:h+1, chat_log:chat})
 			chat=[]
 		}
 
