@@ -1,29 +1,42 @@
 <html lang="en">
 
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>My Cool Chatbox</title>
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>My Cool Chatbox</title>
 
-		<script src="https://cdn.tailwindcss.com"></script>
-	</head>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link rel="stylesheet" href="/css/style.css">
+</head>
 
-	<body>
-		<nav class="bg-gradient-to-r from-cyan-500 py-5">
-			<h1 class="text-center text-2xl font-bold"><a href="/">Cool Chatbox</a></h1>
-			<div class="text-end px-5">
-				<a
-					href="/login"
-					class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600"
-				>Login</a>
-				<a
-					href="#Logout"
-					class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600"
-				>Logout</a>
-			</div>
-		</nav>
-		{{{body}}}
+<body>
+	<nav class="bg-gradient-to-r from-cyan-500 py-5">
+		<h1 class="text-center text-2xl font-bold"><a href="/">Cool Chatbox</a></h1>
+		<div class="text-end px-5">
+			<a href="/login" class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600">Login</a>
+			<a id="logout" class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600 fake-button">Logout</a>
+		</div>
+	</nav>
+	{{{body}}}
 
-	</body>
+</body>
+
 </html>
+
+<script>
+	const logout = async () => {
+		const response = await fetch('/api/users/logout', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+		});
+
+		if (response.ok) {
+			document.location.replace('/');
+		} else {
+			alert(response.statusText);
+		}
+	};
+
+	document.querySelector('#logout').addEventListener('click', logout);
+</script>
