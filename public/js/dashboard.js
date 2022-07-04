@@ -91,16 +91,16 @@ newChatForm.addEventListener("submit", function (e) {
 
 const chatHistorySelector = document.getElementById("chat_history_select");
 
-chatHistorySelector.addEventListener('click', function (e) {
+chatHistorySelector.addEventListener("click", function (e) {
 	e.preventDefault();
-	const chatHistory = e.target.id.split('t');
-	const chatHistoryElement = document.getElementById(chatHistory[1])
-	if(chatHistoryElement.style.display === 'none'){
-		chatHistoryElement.style.display = 'block';
-	}else{
-		chatHistoryElement.style.display = 'none';
+	const chatHistory = e.target.id.split("t");
+	const chatHistoryElement = document.getElementById(chatHistory[1]);
+	if (chatHistoryElement.style.display === "none") {
+		chatHistoryElement.style.display = "block";
+	} else {
+		chatHistoryElement.style.display = "none";
 	}
-})
+});
 
 //chat-list
 
@@ -123,19 +123,61 @@ fetch("/api/users/myChats")
 					"border-gray-300"
 				);
 				// make chat list item clickable and link to chat
-				chatListItem.addEventListener("click", function () {
+
+				const chatDescription = document.createElement("div");
+				chatDescription.classList.add("flex-1", "cursor-pointer");
+
+				chatDescription.innerHTML = `
+				<h3 class="text-xl font-semibold">${chat.chat_host_username} / ${chat.chat_partner_username}</h3>
+				<p class="text-sm"></p>
+				`;
+
+				chatDescription.addEventListener("click", function () {
 					window.location = "/dashboard/chat/" + chat.id;
 				});
-				chatListItem.innerHTML = `
-					<img src="/images/chat.png" class="rounded-full mr-2 h-10 w-10" alt="avatar" />
-					<div class="flex-1">
-						<h3 class="text-xl font-semibold">${chat.chat_host_username} / ${chat.chat_partner_username}</h3>
-						<p class="text-sm"></p>
-					</div>
-					<div class="flex-1 text-right">
-						 <p class="text-sm">Chat</p>
-					</div>
-				`;
+
+				const chatImage = document.createElement("img");
+				chatImage.classList.add("rounded-full", "h-10", "w-10", "mr-2");
+				chatImage.src = `/images/chat.png`;
+
+				const deleteBtn = document.createElement("button");
+				deleteBtn.classList.add(
+					"bg-red-500",
+					"text-white",
+					"px-2",
+					"py-1",
+					"flex-1",
+					"flex-grow-0",
+					"p-10",
+					"text-right",
+					"rounded-full",
+					"hover:bg-red-600",
+					"hover:text-white",
+					"hover:shadow-lg",
+					"hover:shadow-outline",
+					"hover:cursor-pointer",
+					"cursor-pointer",
+					"mr-2"
+				);
+				deleteBtn.innerHTML = "Delete";
+
+				deleteBtn.addEventListener("click", function () {
+					fetch(`/api/chat/${chat.id}`, {
+						method: "DELETE",
+						headers: {
+							Credentials: "include",
+						},
+					}).then((res) => {
+						if (res.ok) {
+							toastr.success("Chat deleted!");
+							chatListItem.remove();
+						}
+					});
+				});
+
+				chatListItem.appendChild(chatImage);
+				chatListItem.appendChild(chatDescription);
+				chatListItem.appendChild(deleteBtn);
 				chatList.appendChild(chatListItem);
 			});
 		}

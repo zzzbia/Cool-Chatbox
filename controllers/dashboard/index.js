@@ -14,19 +14,21 @@ router.get("/", async (req, res) => {
 		let chat = [];
 		let allChats = [];
 
-		for(let h=0;h<user.chats.length;h++){
-		for(let i=0;i<user.chats[h].chat_content.length;i++){
-			chat.push({
-				username:user.chats[h].chat_content[i].username,
-				message:user.chats[h].chat_content[i].message
-			})}
-			allChats.push({id:h+1, chat_log:chat})
-			chat=[]
+		for (let h = 0; h < user.chats.length; h++) {
+			for (let i = 0; i < user.chats[h].chat_content.length; i++) {
+				chat.push({
+					username: user.chats[h].chat_content[i].username,
+					message: user.chats[h].chat_content[i].message,
+				});
+			}
+			allChats.push({ id: h + 1, chat_log: chat });
+			chat = [];
 		}
 		const userChats = userData.chats;
 
 		res.render("chatlist", {
 			logged_in: true,
+			customChats: allChats,
 			helpers: {
 				userId() {
 					return req.session.user_id;
@@ -38,9 +40,8 @@ router.get("/", async (req, res) => {
 					return JSON.stringify(userData);
 				},
 				userChats: userChats,
-				customChats: allChats,
-
-			}})
+			},
+		});
 	} catch (err) {
 		res.status(400).json(err);
 	}
