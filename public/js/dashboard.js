@@ -89,6 +89,19 @@ newChatForm.addEventListener("submit", function (e) {
 		});
 });
 
+const chatHistorySelector = document.getElementById("chat_history_select");
+
+chatHistorySelector.addEventListener('click', function (e) {
+	e.preventDefault();
+	const chatHistory = e.target.id.split('t');
+	const chatHistoryElement = document.getElementById(chatHistory[1])
+	if(chatHistoryElement.style.display === 'none'){
+		chatHistoryElement.style.display = 'block';
+	}else{
+		chatHistoryElement.style.display = 'none';
+	}
+})
+
 //chat-list
 
 fetch("/api/users/myChats")
