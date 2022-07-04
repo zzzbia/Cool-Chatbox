@@ -27,6 +27,7 @@ router.get("/", async (req, res) => {
 
 		res.render("chatlist", {
 			logged_in: true,
+			customChats: allChats,
 			helpers: {
 				userId() {
 					return req.session.user_id;
@@ -38,7 +39,7 @@ router.get("/", async (req, res) => {
 					return JSON.stringify(userData);
 				},
 				userChats: userChats,
-				customChats: allChats,
+
 
 			}})
 	} catch (err) {
