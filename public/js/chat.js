@@ -5,19 +5,7 @@ const socket = io({
 	},
 });
 
-const form = document.getElementById("sendbox");
-const input = document.getElementById("message");
-
-form.addEventListener("submit", function (e) {
-	e.preventDefault();
-	console.log(`Sending message: ${input.value}`);
-	if (input.value) {
-		socket.emit("chat message", input.value);
-		input.value = "";
-	}
-});
-
-socket.on("chat message", (message) => {
+const addMessage = (message) => {
 	const messagesholder = document.getElementById("messagesholder");
 	const messageElement = document.createElement("div");
 	messageElement.classList.add(
@@ -43,4 +31,37 @@ socket.on("chat message", (message) => {
 	messageElement.appendChild(messageText);
 	messagesholder.appendChild(messageElement);
 	messagesholder.scrollTop = messagesholder.scrollHeight;
+};
+
+const syncPreviousMessages = async () => {
+	try {
+		const res = await fetch(`/api/chat/${chatId}`);
+		const chat = await res.json();
+		if (res.ok) {
+			const chat_content = chat.chat_content;
+			for (let i = 0; i < chat_content.length; i++) {
+				addMessage(chat_content[i]);
+			}
+		} else {
+			throw new Error("Error fetching chat");
+		}
+	} catch (e) {
+		toastr.error("Error syncing previous messages");
+	}
+};
+
+syncPreviousMessages();
+
+const form = document.getElementById("sendbox");
+const input = document.getElementById("message");
+
+form.addEventListener("submit", function (e) {
+	e.preventDefault();
+	console.log(`Sending message: ${input.value}`);
+	if (input.value) {
+		socket.emit("chat message", input.value);
+		input.value = "";
+	}
 });
+
+socket.on("chat message", addMessage);
