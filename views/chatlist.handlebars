@@ -19,7 +19,7 @@
                 </button>
             </form>
             <div id="chat_history_select">
-                {{#each userData as |id|}}
+                {{#each customChats as |id|}}
                 <button id="chat{{id.id}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Chat {{id.id}}</button>
                 {{/each}}
             </div>
@@ -27,7 +27,7 @@
 
         <div id="chat-list" class="w-8/12">
             <p>{{userName}}'s' Chat Log!</p>
-            {{#each userData as |chat|}}
+            {{#each customChats as |chat|}}
             <div id="{{chat.id}}" style="display:none" class="h-full w-8/12 bg-cyan-100 drop-shadow-md">
                 <div id="messagesholder" class="overflow-auto max-h-full pb-[100px]">
                     {{#each chat.chat_log as |chatElement|}}

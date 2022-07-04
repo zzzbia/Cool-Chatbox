@@ -23,8 +23,24 @@ router.get("/", async (req, res) => {
 			allChats.push({id:h+1, chat_log:chat})
 			chat=[]
 		}
+		const userChats = userData.chats;
 
-		res.render("chatlist", {logged_in: true, userId: req.session.user_id, userName: userData.username, userData: allChats});
+		res.render("chatlist", {
+			logged_in: true,
+			helpers: {
+				userId() {
+					return req.session.user_id;
+				},
+				userName() {
+					return userData.username;
+				},
+				userData() {
+					return JSON.stringify(userData);
+				},
+				userChats: userChats,
+				customChats: allChats,
+
+			}})
 	} catch (err) {
 		res.status(400).json(err);
 	}
