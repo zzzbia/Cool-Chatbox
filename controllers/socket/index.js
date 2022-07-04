@@ -73,15 +73,25 @@ const socketController = (io) => {
 				const chat_content = chat.chat_content;
 
 				if (message && userData.username) {
-					chat.update({
-						chat_content: [
-							...chat_content,
-							{
-								message: message,
-								username: userData.username,
-							},
-						],
+					// update the chat_content JSON array which is using sequalize and mysql
+					// to store the chat log
+					chat_content.push({
+						message: message,
+						username: userData.username,
 					});
+					await chat.update({
+						chat_content: chat_content,
+					});
+
+					// chat.update({
+					// 	chat_content: [
+					// 		...chat_content,
+					// 		{
+					// 			message: message,
+					// 			username: userData.username,
+					// 		},
+					// 	],
+					// });
 				}
 			} catch (e) {
 				console.log(e);
