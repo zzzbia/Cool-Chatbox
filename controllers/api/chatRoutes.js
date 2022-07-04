@@ -97,7 +97,7 @@ router.post("/newChat", async (req, res) => {
 		const userNames = users.map((user) => user.username);
 
 		const newChat = await Chat.create({
-			chat_content: [],
+			chat_content: JSON.stringify([]),
 			chat_host_username: userNames[0],
 			chat_partner_username: userNames[1],
 		});
@@ -132,7 +132,7 @@ router.post("/newChat/:id", async (req, res) => {
 
 		if (!chatExits) {
 			const newChat = await Chat.create({
-				chat_content: [],
+				chat_content: JSON.stringify([]),
 			});
 			chatId = newChat.id;
 		} else {
