@@ -5,29 +5,26 @@ router.get("/", async (req, res) => {
 	if (!req.session.logged_in) {
 		return res.redirect("/login");
 	}
-
 	try {
 		const userData = await Users.findByPk(req.session.user_id, {
 			include: Chat,
 		});
+		const user = userData.get({ plain: true });
 
-		const userChats = userData.chats;
+		let chat = [];
+		let allChats = [];
 
-		res.render("chatlist", {
-			logged_in: true,
-			helpers: {
-				userId() {
-					return req.session.user_id;
-				},
-				userName() {
-					return userData.username;
-				},
-				userData() {
-					return JSON.stringify(userData);
-				},
-				userChats: userChats,
-			},
-		});
+		for(let h=0;h<user.chats.length;h++){
+		for(let i=0;i<user.chats[h].chat_content.length;i++){
+			chat.push({
+				username:user.chats[h].chat_content[i].username,
+				message:user.chats[h].chat_content[i].message
+			})}
+			allChats.push({chat_log:chat})
+			chat=[]
+		}
+
+		res.render("chatlist", {userId: req.session.user_id, userName: userData.username, userData: allChats});
 	} catch (err) {
 		res.status(400).json(err);
 	}

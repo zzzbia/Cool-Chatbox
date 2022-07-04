@@ -20,6 +20,21 @@
             </form>
         </div>
         <div id="chat-list" class="w-8/12">
+            <p>{{userName}}'s' Chat Log!</p>
+            {{#each userData as |chat|}}
+            <h1 class="font-bold">NEW CHAT LOG</h1>
+            <div id="chatbox" class="h-full w-8/12 bg-cyan-100 drop-shadow-md">
+                <div id="messagesholder" class="overflow-auto max-h-full pb-[100px]">
+                    {{#each chat.chat_log as |chatElement|}}
+                    <div
+                        class='flex flex-row justify-between items-center p-2 bg-indigo-100 border-b-2 border-indigo-200'>
+                        <p class='w-full h-full text-left text-sm text-indigo-600'>{{chatElement.username}}:
+                            {{chatElement.message}}</p>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            {{/each}}
         </div>
     </div>
 </div>
