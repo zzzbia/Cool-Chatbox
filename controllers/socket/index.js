@@ -72,15 +72,17 @@ const socketController = (io) => {
 
 				const chat_content = chat.chat_content;
 
-				chat.update({
-					chat_content: [
-						...chat_content,
-						{
-							message: message,
-							username: userData.username,
-						},
-					],
-				});
+				if (message && userData.username) {
+					chat.update({
+						chat_content: [
+							...chat_content,
+							{
+								message: message,
+								username: userData.username,
+							},
+						],
+					});
+				}
 			} catch (e) {
 				console.log(e);
 				throw new Error(e);
