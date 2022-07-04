@@ -74,13 +74,10 @@ const socketController = (io) => {
 
 				if (message && userData.username) {
 					chat.update({
-						chat_content: [
-							...chat_content,
-							{
-								message: message,
-								username: userData.username,
-							},
-						],
+						chat_content: chat_content.concat({
+							username: userData.username,
+							message: message,
+						}),
 					});
 				}
 			} catch (e) {
