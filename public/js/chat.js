@@ -5,6 +5,11 @@ const socket = io({
 	},
 });
 
+function playNotification() {
+	const audioEl = document.getElementById("notification");
+	audioEl.play();
+}
+
 const addMessage = (message) => {
 	const messagesholder = document.getElementById("messagesholder");
 	const messageElement = document.createElement("div");
@@ -64,4 +69,7 @@ form.addEventListener("submit", function (e) {
 	}
 });
 
-socket.on("chat message", addMessage);
+socket.on("chat message", (message) => {
+	addMessage(message);
+	playNotification();
+});
