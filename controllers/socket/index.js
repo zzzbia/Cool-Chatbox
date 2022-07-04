@@ -64,8 +64,26 @@ const socketController = (io) => {
 					message: message,
 					username: userData.username,
 				});
+
+				// update chat_content JSON array with new message
+				// chatId is the primary key of the chat table
+
+				const chat = await Chat.findByPk(chatId);
+
+				const chat_content = chat.chat_content;
+
+				chat.update({
+					chat_content: [
+						...chat_content,
+						{
+							message: message,
+							username: userData.username,
+						},
+					],
+				});
 			} catch (e) {
-				throw new Error("Error while fetching user data");
+				console.log(e);
+				throw new Error(e);
 			}
 		});
 	});

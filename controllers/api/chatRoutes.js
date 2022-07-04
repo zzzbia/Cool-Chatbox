@@ -59,7 +59,7 @@ router.post("/newChat", async (req, res) => {
 		const userNames = users.map((user) => user.username);
 
 		const newChat = await Chat.create({
-			chat_content: { username: " ", chat: " " },
+			chat_content: [],
 			chat_host_username: userNames[0],
 			chat_partner_username: userNames[1],
 		});
