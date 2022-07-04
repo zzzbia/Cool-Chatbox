@@ -29,7 +29,7 @@
         <div id="chat-list" class="w-8/12">
             <p>{{userName}}'s' Previous ChatRoom Log!</p>
             {{#each customChats as |chat|}}
-            <div id="{{chat.id}}" style="display:none" class="h-full w-8/12 bg-cyan-100 drop-shadow-md chathistory">
+            <div id="{{chat.id}}" style="display:none" class="chathistory">
                 <div id="messagesholder" class="overflow-auto max-h-full pb-[100px]">
                     {{#each chat.chat_log as |chatElement|}}
                     <div

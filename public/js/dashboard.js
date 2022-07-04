@@ -109,8 +109,8 @@ fetch("/api/users/myChats")
 	.then((data) => {
 		if (data.length) {
 			console.log(data);
-			const chatHistories = document.getElementsByClassName('chathistory')
-			
+			const chatHistories = document.getElementsByClassName("chathistory");
+
 			let count = 0;
 			data.forEach((chat) => {
 				const chatList = chatHistories[count];
@@ -131,7 +131,7 @@ fetch("/api/users/myChats")
 				chatDescription.classList.add("flex-1", "cursor-pointer");
 
 				chatDescription.innerHTML = `
-				<h3 class="text-xl font-semibold">RE-JOIN CHAT</h3>
+				<h3 class="text-xl font-semibold">RE-JOIN CHAT ${chat.chat_host_username} / ${chat.chat_partner_username}</h3>
 				<p class="text-sm"></p>
 				`;
 
@@ -182,7 +182,7 @@ fetch("/api/users/myChats")
 				chatListItem.appendChild(chatDescription);
 				chatListItem.appendChild(deleteBtn);
 				chatList.appendChild(chatListItem);
-				count++
+				count++;
 			});
 		}
 	});
