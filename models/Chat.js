@@ -12,7 +12,7 @@ Chat.init(
 			autoIncrement: true,
 		},
 		chat_content: {
-			type: DataTypes.JSON,
+			type: DataTypes.STRING(65535),
 			allowNull: false,
 		},
 		chat_host_username: {

@@ -70,14 +70,21 @@ const socketController = (io) => {
 
 				const chat = await Chat.findByPk(chatId);
 
-				const chat_content = chat.chat_content;
+				let chatContent = [];
+
+				try {
+					chatContent = JSON.parse(chat.chat_content);
+				} catch (e) {}
 
 				if (message && userData.username) {
 					chat.update({
-						chat_content: chat_content.concat({
-							username: userData.username,
-							message: message,
-						}),
+						chat_content: JSON.stringify([
+							...chatContent,
+							{
+								username: userData.username,
+								message: message,
+							},
+						]),
 					});
 				}
 			} catch (e) {

@@ -43,7 +43,15 @@ const syncPreviousMessages = async () => {
 		const res = await fetch(`/api/chat/${chatId}`);
 		const chat = await res.json();
 		if (res.ok) {
-			const chat_content = chat.chat_content;
+			let chat_content = [];
+
+			console.log(chat.chat_content);
+			try {
+				chat_content = JSON.parse(chat.chat_content);
+			} catch (e) {
+				console.log(e);
+			}
+
 			for (let i = 0; i < chat_content.length; i++) {
 				addMessage(chat_content[i]);
 			}
