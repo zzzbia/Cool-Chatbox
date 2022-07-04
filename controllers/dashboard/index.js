@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
 			chat=[]
 		}
 
-		res.render("chatlist", {userId: req.session.user_id, userName: userData.username, userData: allChats});
+		res.render("chatlist", {logged_in: true, userId: req.session.user_id, userName: userData.username, userData: allChats});
 	} catch (err) {
 		res.status(400).json(err);
 	}
