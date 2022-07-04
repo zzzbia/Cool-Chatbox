@@ -17,12 +17,33 @@ router.get("/", async (req, res) => {
 // #TODO: route for deleting chat by id if user is in the chat
 router.delete("/:id", async (req, res) => {
 	try {
-		const chatData = await Chat.findByPk(req.params.id);
+		const chatId = parseInt(req.params.id);
+		const chatData = await Chat.findByPk(chatId);
 
-		// if user is
+		// if user is in chat_host_username or chat_partner_username, delete chat
+		const user = await Users.findByPk(req.session.user_id);
+		if (
+			chatData.chat_host_username === user.username ||
+			chatData.chat_partner_username === user.username
+		) {
+			console.log("we here");
+			const chatInvolvements = await Chat_involvement.findAll({
+				where: {
+					chat_id: chatId,
+				},
+			});
 
-		res.status(200).json(chatData);
+			console.log("chatInvolvements", chatInvolvements);
+			for (let i = 0; i < chatInvolvements.length; i++) {
+				await chatInvolvements[i].destroy();
+			}
+
+			await chatData.destroy();
+		}
+
+		res.status(200);
 	} catch (err) {
+		console.log("error deleting", err);
 		res.status(400).json(err);
 	}
 });
@@ -63,14 +84,6 @@ router.post("/newChat", async (req, res) => {
 		}
 
 		const chatPartner = await Users.findByPk(req.body.chatPartnerId);
-
-		// check if user already has a chat with the chat partner
-
-		if (chatExists) {
-			console.log("chat exists", chatExists);
-			res.status(200).json(chatExists);
-			return;
-		}
 
 		const userIds = [req.session.user_id, req.body.chatPartnerId];
 
