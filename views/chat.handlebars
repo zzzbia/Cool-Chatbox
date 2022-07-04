@@ -1,5 +1,5 @@
 <div id="wrapper" class="h-[80vh] mx-auto container flex flex-row mt-10">
-	<div id="usercard" class="h-full w-4/12 bg-cyan-50 drop-shadow-md">
+	{{!-- <div id="usercard" class="h-full w-4/12 bg-cyan-50 drop-shadow-md">
 		<div class="drop-shadow-md text-center mt-10 bg-cyan-100 h-8/12 w-full p-10">
 			<h1 className="">Username</h1>
 			<h2>Session Time</h2>
@@ -8,8 +8,8 @@
 			</button>
 		</div>
 
-	</div>
-	<div id="chatbox" class="h-full w-8/12 bg-cyan-100 drop-shadow-md">
+	</div> --}}
+	<div id="chatbox" class="h-full w-full bg-cyan-100 drop-shadow-md">
 		<div id="messagesholder" class="overflow-auto max-h-full pb-[100px]">
 		</div>
 		<form id="sendbox" class="absolute w-full h-20 bg-red-100 bottom-0 border-t-2 border-indigo-200">
@@ -23,40 +23,5 @@
 		</form>
 	</div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.5.0/socket.io.js" />
-<script src="/socket.io/socket.io.js"></script>
-<script>
-
-	const chatId = window.location.pathname.split('/')[3];
-	const socket = io({
-		query: {
-			chatId: chatId
-		}
-	});
-
-	const form = document.getElementById('sendbox');
-	const input = document.getElementById('message');
-
-	form.addEventListener('submit', function (e) {
-		e.preventDefault();
-		console.log(`Sending message: ${input.value}`);
-		if (input.value) {
-			socket.emit('chat message', input.value);
-			input.value = '';
-		}
-	});
-
-
-	socket.on("chat message", (message) => {
-		const messagesholder = document.getElementById('messagesholder');
-		const messageElement = document.createElement('div');
-		messageElement.classList.add('flex', 'flex-row', 'justify-between', 'items-center', 'p-2', 'bg-indigo-100', 'border-b-2', 'border-indigo-200');
-
-		const messageText = document.createElement('div');
-		messageText.classList.add('w-full', 'h-full', 'text-left', 'text-sm', 'text-indigo-600');
-		messageText.innerText = `${message.username}: ${message.message}`;
-		messageElement.appendChild(messageText);
-		messagesholder.appendChild(messageElement);
-		messagesholder.scrollTop = messagesholder.scrollHeight;
-	});
+<script src="/js/chat.js">
 </script>

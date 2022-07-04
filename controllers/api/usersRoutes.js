@@ -4,9 +4,23 @@ const { Users, Chat } = require("../../models");
 router.get("/", async (req, res) => {
 	try {
 		const usersData = await Users.findAll();
-
+		console.log(usersData);
 		res.status(200).json(usersData);
 	} catch (err) {
+		res.status(400).json(err);
+	}
+});
+
+router.get("/myChats", async (req, res) => {
+	try {
+		console.log("user", req.session.user_id);
+		const userData = await Users.findByPk(req.session.user_id, {
+			include: Chat,
+		});
+		console.log("my chats", userData);
+		res.status(200).json(userData.chats);
+	} catch (err) {
+		console.log(err);
 		res.status(400).json(err);
 	}
 });

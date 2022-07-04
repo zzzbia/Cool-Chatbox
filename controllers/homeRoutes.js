@@ -10,15 +10,22 @@ router.get("/", (req, res) => {
 
 //Route for logging in
 router.get("/login", (req, res) => {
+	if (req.session.logged_in) {
+		return res.redirect("/dashboard");
+	}
 	res.render("login", {});
 });
 
 router.get("/signup", (req, res) => {
+	if (req.session.logged_in) {
+		return res.redirect("/dashboard");
+	}
 	res.render("signup", {});
 });
 
-router.get("/chatlist", (req, res) => {
-	res.render("chatlist", {});
+router.get("/logout", (req, res) => {
+	req.session.destroy();
+	res.redirect("/login");
 });
 
 module.exports = router;
