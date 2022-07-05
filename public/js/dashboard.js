@@ -14,7 +14,6 @@ socket.on("users", (users) => {
 		// append user to user list
 		const user = document.createElement("li");
 		user.classList.add(
-			
 			"flex",
 			"flex-row",
 			"justify-between",
@@ -191,10 +190,10 @@ fetch("/api/users/myChats")
 				deleteBtn.addEventListener("click", function (e) {
 					const idKey = e.target.id.split("l");
 					const historyContainer = document.getElementById(idKey[1]);
-					const chatBtn = document.getElementById("chat" + idKey[1]);
+					// const chatBtn = document.getElementById("chat" + idKey[1]);
 					historyContainer.remove();
 					chatListItem.remove();
-					chatBtn.remove();
+					// chatBtn.remove();
 					// var chatBtn = document.getElementById()
 					fetch(`/api/chat/${chat.id}`, {
 						method: "DELETE",
