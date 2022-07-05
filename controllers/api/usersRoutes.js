@@ -65,7 +65,6 @@ router.post("/login", async (req, res) => {
 	try {
 		const userData = await Users.findOne({
 			where: { username: req.body.username },
-			attributes: { exclude: ["password"] },
 		});
 
 		if (!userData) {
