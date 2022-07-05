@@ -165,7 +165,9 @@ fetch("/api/users/myChats")
 
 				deleteBtn.addEventListener("click", function (e) {
 					const idKey = e.target.id.split('l');
+					const historyContainer = document.getElementById(idKey[1]);
 					const chatBtn = document.getElementById('chat'+idKey[1]);
+					historyContainer.remove();
 					chatListItem.remove();
 					chatBtn.remove();
 					// var chatBtn = document.getElementById()
