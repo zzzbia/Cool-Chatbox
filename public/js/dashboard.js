@@ -109,6 +109,7 @@ fetch("/api/users/myChats")
 	.then((data) => {
 		if (data.length) {
 			console.log(data);
+			let count = 1
 			data.forEach((chat) => {
 				const chatList = document.getElementById("chat-list");
 				const chatListItem = document.createElement("li");
@@ -159,10 +160,15 @@ fetch("/api/users/myChats")
 					"cursor-pointer",
 					"mr-2"
 				);
+				deleteBtn.setAttribute('id','del'+count)
 				deleteBtn.innerHTML = "Delete";
 
-				deleteBtn.addEventListener("click", function () {
+				deleteBtn.addEventListener("click", function (e) {
+					const idKey = e.target.id.split('l');
+					const chatBtn = document.getElementById('chat'+idKey[1]);
 					chatListItem.remove();
+					chatBtn.remove();
+					// var chatBtn = document.getElementById()
 					fetch(`/api/chat/${chat.id}`, {
 						method: "DELETE",
 						headers: {
@@ -181,6 +187,7 @@ fetch("/api/users/myChats")
 				chatListItem.appendChild(chatDescription);
 				chatListItem.appendChild(deleteBtn);
 				chatList.appendChild(chatListItem);
+				count++
 			});
 		}
 	});
