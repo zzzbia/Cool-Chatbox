@@ -14,6 +14,7 @@ socket.on("users", (users) => {
 		// append user to user list
 		const user = document.createElement("li");
 		user.classList.add(
+			
 			"flex",
 			"flex-row",
 			"justify-between",
@@ -143,11 +144,11 @@ fetch("/api/users/myChats")
 				let lastMessage = "New chat";
 				let lastUser = "";
 				try {
-					chatConents = JSON.parse(chat.chat_content);
+					let chatConents = JSON.parse(chat.chat_content);
 					lastMessage = chatConents[chatConents.length - 1].message;
 					lastUser = chatConents[chatConents.length - 1].username;
 				} catch (e) {
-					chatConents = [{ message: "New chat" }];
+					console.log(e);
 				}
 
 				chatDescription.innerHTML = `
