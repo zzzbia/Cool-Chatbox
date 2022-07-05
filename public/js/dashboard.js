@@ -18,11 +18,14 @@ socket.on("users", (users) => {
 			"flex-row",
 			"justify-between",
 			"items-center",
-			"p-2",
+			"p-5",
 			"bg-indigo-100",
 			"border-b-2",
 			"border-indigo-200",
-			"cursor-pointer"
+			"cursor-pointer",
+			"rounded-xl",
+			"my-5",
+			"font-bold"
 		);
 
 		const userId = users[i].userId;
@@ -57,7 +60,7 @@ socket.on("users", (users) => {
 					console.log("error", e);
 				});
 		});
-		user.innerHTML = `<span class="text-sm text-indigo-600">${users[i].userName}</span>`;
+		user.innerHTML = `<span class="text-lg text-indigo-600">${users[i].userName}</span>`;
 		usersList.appendChild(user);
 	}
 });
@@ -66,6 +69,7 @@ const newChatForm = document.getElementById("new-chat");
 
 newChatForm.addEventListener("submit", function (e) {
 	e.preventDefault();
+	MicroModal.close();
 	const chatPartnerId = document.getElementById("chat-user").value;
 
 	fetch("/api/chat/newChat", {
@@ -109,28 +113,48 @@ fetch("/api/users/myChats")
 	.then((data) => {
 		if (data.length) {
 			console.log(data);
-			let count = 1
+			let count = 1;
+
+			// remove hidden class from chat-list
+			document.getElementById("chat-list").classList.remove("hidden");
+
 			data.forEach((chat) => {
 				const chatList = document.getElementById("chat-list");
 				const chatListItem = document.createElement("li");
 				chatListItem.classList.add(
 					"flex",
 					"items-center",
-					"py-2",
+					"py-4",
+					"rounded-lg",
+					"my-5",
 					"cursor-pointer",
-					"bg-gray-200",
 					"border-b-2",
 					"px-4",
-					"border-gray-300"
+					"border",
+					"border-opacity-80",
+					"drop-shadow-md",
+					"hover:bg-indigo-100"
 				);
 				// make chat list item clickable and link to chat
 
 				const chatDescription = document.createElement("div");
 				chatDescription.classList.add("flex-1", "cursor-pointer");
 
+				let lastMessage = "New chat";
+				let lastUser = "";
+				try {
+					chatConents = JSON.parse(chat.chat_content);
+					lastMessage = chatConents[chatConents.length - 1].message;
+					lastUser = chatConents[chatConents.length - 1].username;
+				} catch (e) {
+					chatConents = [{ message: "New chat" }];
+				}
+
 				chatDescription.innerHTML = `
-				<h3 class="text-xl font-semibold">${chat.chat_host_username} / ${chat.chat_partner_username}</h3>
-				<p class="text-sm"></p>
+				<h3 class="text-2xl font-semibold">${chat.chat_host_username} / ${chat.chat_partner_username}</h3>
+				<p class="text-sm">
+					${lastUser}: ${lastMessage}
+				</p>
 				`;
 
 				chatDescription.addEventListener("click", function () {
@@ -160,13 +184,13 @@ fetch("/api/users/myChats")
 					"cursor-pointer",
 					"mr-2"
 				);
-				deleteBtn.setAttribute('id','del'+count)
+				deleteBtn.setAttribute("id", "del" + count);
 				deleteBtn.innerHTML = "Delete";
 
 				deleteBtn.addEventListener("click", function (e) {
-					const idKey = e.target.id.split('l');
+					const idKey = e.target.id.split("l");
 					const historyContainer = document.getElementById(idKey[1]);
-					const chatBtn = document.getElementById('chat'+idKey[1]);
+					const chatBtn = document.getElementById("chat" + idKey[1]);
 					historyContainer.remove();
 					chatListItem.remove();
 					chatBtn.remove();
@@ -189,7 +213,12 @@ fetch("/api/users/myChats")
 				chatListItem.appendChild(chatDescription);
 				chatListItem.appendChild(deleteBtn);
 				chatList.appendChild(chatListItem);
-				count++
+				count++;
 			});
 		}
 	});
+
+// show micromodal modal-1 when creat-chat-id button is clicked
+document.getElementById("create-chat-id").addEventListener("click", () => {
+	MicroModal.show("modal-1");
+});

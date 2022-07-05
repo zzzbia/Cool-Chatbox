@@ -6,27 +6,68 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>My Cool Chatbox</title>
 
-	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="https://cdnout.com/jquery/"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.5.0/socket.io.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.1/toastr.min.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.1/toastr.min.css" rel="stylesheet" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,700;1,800&family=Roboto:wght@300;400;500&display=swap"
+		rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+		rel="stylesheet">
+
+	<link href="/css/style.css" rel="stylesheet" />
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					fontFamily: {
+						sans: ['Poppins', 'sans-serif'],
+						serif: ['Barlow', 'serif'],
+						mono: ['Lato', 'monospace'],
+						display: ['Roboto', 'sans-serif'],
+					},
+					colors: {
+						font: '#3a485f',
+						lightBlue: '#f2f6ff',
+						primary: '#0036be',
+						secondary: '#2b51b2',
+						danger: '#da1d0b'
+					}
+				}
+			},
+		};
+	</script>
+
 </head>
 
-<body>
-	<nav class="bg-gradient-to-r from-cyan-500 py-5">
-		<h1 class="text-center text-2xl font-bold"><a href="/">Cool Chatbox</a></h1>
-		<div class="text-end px-5">
-			{{#if logged_in}}
-			<a href="/logout" class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600">Logout</a>
-			{{else}}
-			<a href="/login" class="px-5 py-1 h-full bg-cyan-500 rounded-md text-white hover:bg-cyan-600">Login</a>
-			{{/if}}
+<body class="bg-lightBlue font-display text-font">
+	<nav class=" py-5 container mx-auto py-10 ">
+		<div
+			class="bg-slate-100 p-5 border-solid border  border-opacity-90 border-text rounded-xl relative drop-shadow-lg">
+			<div class="md:mx-auto">
+				<h1 class="md:text-center text-3xl font-bold text-primary font-sans hover:opacity-80"><a href="/">Cool
+						chatBox</a></h1>
+			</div>
+			<div class=" text-end md:absolute top-1/2 transform -translate-y-1/2 right-10">
+				{{#if logged_in}}
+				<a href="/logout"
+					class="text-sm px-2 py-4 md:px-5 md:py-2 h-full bg-secondary rounded-md md:text-xl text-white font-bold hover:opacity-80">Logout</a>
+				{{else}}
+				<a href="/login"
+					class="text-xs px-1 py-4 md:px-5 md:py-2 h-full bg-secondary rounded-md md:text-xl text-white font-bold hover:opacity-80">Login</a>
+				{{/if}}
+			</div>
 		</div>
 	</nav>
 	{{{body}}}
 
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/micromodal/dist/micromodal.min.js"></script>
 
 </html>
