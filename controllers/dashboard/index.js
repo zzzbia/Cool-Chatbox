@@ -11,6 +11,9 @@ router.get("/", async (req, res) => {
 		});
 		const user = userData.get({ plain: true });
 
+		console.log('Here!: ');
+		console.log(userData.dataValues);
+
 		let chat = [];
 		let allChats = [];
 
