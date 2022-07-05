@@ -1,33 +1,32 @@
 <div class="container mx-auto py-10">
 
-    <div class="flex flex-row">
-        <div id="create-new-chat" class="w-4/12 my-10 px-10">
+    <div class="flex flex-row flex-wrap">
+        <div id="create-new-chat" class="w-11/12 mx-auto md:w-4/12 flex-grow my-10 px-10">
             <h1 class="text-4xl font-bold">
                 Welcome,
                 {{userName}}
             </h1>
+            <p>
+                Your user id is {{userId}}.
+            </p>
             <h2 class="font-bold text-2xl my-10">Online users:</h2>
             <ul id="online-users">
 
             </ul>
-            <form id="new-chat">
-                <h3>Or create chat by userID:</h3>
-                <input type="text" id="chat-user" placeholder="User id of user"
-                    class="w-full p-2 border my-10 rounded-lg" />
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Create new chat
-                </button>
-            </form>
+            <button id="create-chat-id" data-custom-open="modal-1"
+                class="my-4 bg-secondary hover:bg-primary text-lg text-white font-bold py-2 px-4 rounded-lg">
+                Create chat by user id
+            </button>
+
             <div id="chat_history_select">
-                {{#each customChats as |id|}}
+                <!-- {{#each customChats as |id|}}
                 <button id="chat{{id.id}}"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Chat {{id.id}}</button>
-                {{/each}}
+                {{/each}} -->
             </div>
         </div>
 
-        <div id="chat-list" class="w-8/12">
-            <p>{{userName}}'s' Previous ChatRoom Log!</p>
+        <div id="chat-list" class="w-11/12 mx-auto md:w-8/12 hidden">
             {{#each customChats as |chat|}}
             <div id="{{chat.id}}" style="display:none" class="h-full w-8/12 bg-cyan-100 drop-shadow-md">
                 <div id="messagesholder" class="overflow-auto max-h-full pb-[100px]">
@@ -44,6 +43,32 @@
         </div>
     </div>
 </div>
+
+<div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <header class="modal__header">
+                <h2 class="modal__title" id="modal-1-title">
+                    Create a chat with an offline user with their user id
+                </h2>
+                <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            </header>
+            <main class="modal__content" id="modal-1-content">
+                <form id="new-chat">
+                    <label class="block text-lg font-bold" for="password">Your chat partner's id</label>
+                    <input
+                        class="shadow appearance-none border rounded-lg w-full py-2 my-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="chat-user" placeholder="Chat partner id">
+                    <button type="submit"
+                        class="my-4 bg-secondary hover:bg-primary text-lg text-white font-bold py-2 px-4 rounded-lg">
+                        Create chat
+                    </button>
+                </form>
+            </main>
+        </div>
+    </div>
+</div>
+
 <script src="/js/user-state.js">
 </script>
 <script src="/js/dashboard.js">

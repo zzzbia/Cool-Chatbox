@@ -3,7 +3,11 @@ const router = require("express").Router();
 // Routes
 //Route for homepage
 router.get("/", (req, res) => {
-	res.render("homepage", {});
+	if (req.session.logged_in) {
+		return res.redirect("/dashboard");
+	} else {
+		return res.render("login");
+	}
 });
 
 //Route for Chat after logged in

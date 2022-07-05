@@ -3,9 +3,12 @@ const { Users, Chat } = require("../../models");
 // get all users
 router.get("/", async (req, res) => {
 	try {
-		const usersData = await Users.findAll();
-		console.log(usersData);
-		res.status(200).json(usersData);
+		// find all users and emit password field
+		const users = await Users.findAll({
+			attributes: { exclude: ["password"] },
+		});
+
+		res.status(200).json(users);
 	} catch (err) {
 		res.status(400).json(err);
 	}
@@ -16,6 +19,7 @@ router.get("/myChats", async (req, res) => {
 		console.log("user", req.session.user_id);
 		const userData = await Users.findByPk(req.session.user_id, {
 			include: Chat,
+			attributes: { exclude: ["password"] },
 		});
 		console.log("my chats", userData);
 		res.status(200).json(userData.chats);
@@ -28,7 +32,10 @@ router.get("/myChats", async (req, res) => {
 // For getting a user's chat history
 router.get("/:id", async (req, res) => {
 	try {
-		const userData = await Users.findByPk(req.params.id, { include: Chat });
+		const userData = await Users.findByPk(req.params.id, {
+			include: Chat,
+			attributes: { exclude: ["password"] },
+		});
 
 		res.status(200).json(userData);
 	} catch (err) {
@@ -58,6 +65,7 @@ router.post("/login", async (req, res) => {
 	try {
 		const userData = await Users.findOne({
 			where: { username: req.body.username },
+			attributes: { exclude: ["password"] },
 		});
 
 		if (!userData) {
